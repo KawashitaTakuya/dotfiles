@@ -1,6 +1,6 @@
 [user]
-    name = tkawashita
-    email = tkawashita@aiming-inc.com
+    name = Ka1kai
+    email = hal.game.mail@gmail.com
 [color]
     ui = auto
 [core]
@@ -9,21 +9,6 @@
 	editor = vim -c \"set fenc=utf-8\"
 
 [alias]
-	# Gerrit関連のalias定義
-	current-branch = "!sh -c \"git branch | grep '*' | awk '{ print \\$2 }' \"" 
-	push-for-review = "!sh -c 'git push origin HEAD:refs/for/master/`git current-branch`'" 
-	push-for-review-fix = "!sh -c 'git push origin HEAD:refs/for/fix/`git current-branch`'" 
-	push-for-review-production = "!sh -c 'git push origin HEAD:refs/for/production/`git current-branch`'"
-	push-for-review-staging = "!sh -c 'git push origin HEAD:refs/for/staging/`git current-branch`'"
-	push-for-review-release = "!sh -c 'git push origin HEAD:refs/for/release/`git current-branch`'"
-	push-for-drafts = "!sh -c 'git push origin HEAD:refs/drafts/master/`git current-branch`'"
-	pfr = "!sh -c 'git push-for-review'" 
-	pfd = "!sh -c 'git push-for-drafts'"
-	pfr-fix = "!sh -c 'git push-for-review-fix'" 
-	pfr-production = "!sh -c 'git push-for-review-production'"
-	pfr-staging = "!sh -c 'git push-for-review-staging'"
-	pfr-release = "!sh -c 'git push-for-review-release'"
-    # 以下はGerritには関係ないがお好みで
     co = checkout
     br = branch
     st = status
