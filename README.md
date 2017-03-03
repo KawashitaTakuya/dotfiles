@@ -43,7 +43,7 @@ https://github.com/editorconfig/editorconfig-vim
 - Debugger for Unity <br>
  https://marketplace.visualstudio.com/items?itemName=Unity.unity-debug
  
-２．インテリセンスが聞きかないので必要そうなもの入れる
+２．インテリセンスがきかないので必要そうなもの入れる
 - .Net Core <br>
  https://www.microsoft.com/net/core#macos
  
