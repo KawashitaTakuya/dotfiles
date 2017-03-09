@@ -68,6 +68,9 @@ NeoBundle 'christoomey/vim-tmux-navigator'
 " ファイル検索に使う
 NeoBundle 'ctrlpvim/ctrlp.vim'
 
+" ag vim
+NeoBundle 'rking/ag.vim'
+
 " C++11用シンタックスハイライト
 NeoBundleLazy 'vim-jp/cpp-vim', {'autoload' : {'filetypes' : 'cpp'} }
 
@@ -296,16 +299,23 @@ nnoremap P <C-o>
 let g:unite_enable_start_insert=1
 let g:unite_source_history_yank_enable =1
 let g:unite_source_file_mru_limit = 200
-nnoremap <silent> ,y :<C-u>Unite history/yank<CR>
-nnoremap <silent> ,b :<C-u>Unite buffer<CR>
+let g:unite_source_file_mru_filename_format = ''
+
+" ウィンドウを分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+" ウィンドウを縦に分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+
+nnoremap <silent> <Space>y :<C-u>Unite history/yank<CR>
+nnoremap <silent> <Space>b :<C-u>Unite buffer<CR>
 "nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> ,r :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> ,n :<C-u>Unite file/new<CR>
-nnoremap <silent> ,f :<C-u>Unite file_rec<CR>
-nnoremap <silent> ,uu :<C-u>Unite file_mru buffer<CR>
-" Unit.vim上でのキーマッピング
-autocmd FileType unite call s:unitevim_settings()
-function! s:unitevim_settings()
-	nmap <silent><buffer> <ESC><ESC> q
-	imap <silent><buffer> <ESC><ESC> q
-endfunction
+nnoremap <silent> <Space>r :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> <Space>n :<C-u>Unite file/new<CR>
+nnoremap <silent> <Space>f :<C-u>Unite file_rec<CR>
+nnoremap <silent> <Space>uu :<C-u>Unite file_mru buffer<CR>
+nnoremap <silent> <Space>ug :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
