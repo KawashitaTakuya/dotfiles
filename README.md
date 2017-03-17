@@ -1,8 +1,18 @@
 # Ka1kai dotfiles
 
+## Settings
+
+- 各種設定ファイルはシンボリックリンクを貼ると幸せになれる
+
 ## vim Setting
 
 - .vimrcと.vimフォルダをroot直下に置くと幸せになれる
+- vimprocを環境に合わせてインストールしておく
+```
+cd ~/.vim/bundle/vimproc
+# ubuntuの場合
+make -f make_unix.mak
+```
 
 ### molokai with vim
 https://github.com/tomasr/molokai

@@ -36,14 +36,12 @@ NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'lambdalisue/unite-grep-vcs'
 
 " 非同期処理を行ってくれる
-NeoBundle 'Shougo/vimproc.vim', {
-	\ 'build' : {
-	\ 'windows' : 'make -f make_mingw32.mak', 
-	\ 'cygwin' : 'make -f make_cygwin.mak', 
-	\ 'mac' : 'make -f make_mac.mak', 
-	\ 'unix' : 'make -f make_unix.mac', 
-	\ },
-	\ }
+NeoBundle 'Shougo/vimproc'
+" .vim/bundle/vimproc内で環境に合わせて叩く
+"'windows' : 'make -f make_mingw32.mak'
+"'cygwin' : 'make -f make_cygwin.mak'
+"'mac' : 'make -f make_mac.mak'
+"'unix' : 'make -f make_unix.mac'
 
 " 補完
 " vim-clang
