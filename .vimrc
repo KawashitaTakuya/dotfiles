@@ -66,6 +66,9 @@ NeoBundle 'christoomey/vim-tmux-navigator'
 " ファイル検索に使う
 NeoBundle 'ctrlpvim/ctrlp.vim'
 
+" 文字の置換
+NeoBundle 'osyo-manga/vim-over'
+
 " ag vim
 NeoBundle 'rking/ag.vim'
 
@@ -289,15 +292,17 @@ nnoremap sc :call ClangFormat()<CR>
 
 " ctagsの設定
 " key bind
-nnoremap T <C-]>
-nnoremap P <C-o>
+nnoremap <C-n> g<C-]>
+nnoremap <C-b> <C-t>
 
 " uniteの設定
 " 起動時にインサートモードで開始するかどうか
-let g:unite_enable_start_insert=1
-let g:unite_source_history_yank_enable =1
+let g:unite_enable_start_insert = 1
+let g:unite_source_history_yank_enable = 1
 let g:unite_source_file_mru_limit = 200
 let g:unite_source_file_mru_filename_format = ''
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
 
 " ウィンドウを分割して開く
 au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
@@ -316,4 +321,19 @@ nnoremap <silent> <Space>r :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> <Space>n :<C-u>Unite file/new<CR>
 nnoremap <silent> <Space>f :<C-u>Unite file_rec<CR>
 nnoremap <silent> <Space>uu :<C-u>Unite file_mru buffer<CR>
-nnoremap <silent> <Space>ug :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+nnoremap <silent> <Space>ug :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap <Space>cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+" unite grep に ag を使う
+if executable('ag')
+	let g:unite_source_grep_command = 'ag'
+	let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+	let g:unite_source_grep_recursive_opt = ''
+endif
+
+" vim-over(置換のキーマップ)
+" 起動
+nnoremap <silent> <Space>m : OverCommandLine<CR>
+" カーソル下の単語をハイライト付きで置換
+nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+" コピーした文字列をハイライト付きで置換
+nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
