@@ -35,6 +35,9 @@ NeoBundle 'tomasr/molokai'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'lambdalisue/unite-grep-vcs'
 
+" Unite ghq
+NeoBundle 'sorah/unite-ghq'
+
 " 非同期処理を行ってくれる
 NeoBundle 'Shougo/vimproc'
 " .vim/bundle/vimproc内で環境に合わせて叩く
@@ -273,6 +276,13 @@ let g:ycm_always_populate_location_list = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 
 " clang-format用関数
+function! s:clang_format()
+	let now_line = line(".")
+	exec ":%! clang-format"
+	exec ":" . now_line
+endfunction
+
+" clang-format用関数
 function! ClangFormat()
 	let now_line = line(".")
 	exec ":%! clang-format"
@@ -280,13 +290,13 @@ function! ClangFormat()
 endfunction
 
 " 保存時に自動的にclang-format
-"if executable('clang-format')
-"	augroup cpp_clang_format
-"		autocmd!
-"		autocmd BufWrite,FileWritePre,FileAppendPre *.h call s:clang_format()
-"		autocmd BufWrite,FileWritePre,FileAppendPre *.cpp call s:clang_format()
-"	augroup END
-"endif
+if executable('clang-format')
+	augroup cpp_clang_format
+		autocmd!
+		autocmd BufWrite,FileWritePre,FileAppendPre *.h call s:clang_format()
+		autocmd BufWrite,FileWritePre,FileAppendPre *.cpp call s:clang_format()
+	augroup END
+endif
 
 nnoremap sc :call ClangFormat()<CR>
 
