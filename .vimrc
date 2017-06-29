@@ -52,6 +52,11 @@ NeoBundle 'Shougo/vimproc'
 " YouCompleteMe
 " NeoBundle "Valloric/YouCompleteMe"
 
+" markdown
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'kannokanno/previm'
+NeoBundle 'tyru/open-browser.vim'
+
 " EditorConfig
 NeoBundle 'editorconfig/editorconfig-vim'
 
@@ -71,6 +76,7 @@ NeoBundle 'osyo-manga/vim-over'
 
 " ag vim
 NeoBundle 'rking/ag.vim'
+
 
 " C++11用シンタックスハイライト
 NeoBundleLazy 'vim-jp/cpp-vim', {'autoload' : {'filetypes' : 'cpp'} }
@@ -337,3 +343,6 @@ nnoremap <silent> <Space>m : OverCommandLine<CR>
 nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 " コピーした文字列をハイライト付きで置換
 nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+
+" markdownの設定
+au BufRead,BufNewFile *.md set filetype=markdown
