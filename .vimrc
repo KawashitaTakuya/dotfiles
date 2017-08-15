@@ -279,20 +279,20 @@ let g:ycm_always_populate_location_list = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 
 " clang-format用関数
-function! ClangFormat()
+function! s:ClangFormat()
 	let now_line = line(".")
 	exec ":%! clang-format"
 	exec ":" . now_line
 endfunction
 
 " 保存時に自動的にclang-format
-"if executable('clang-format')
-"	augroup cpp_clang_format
-"		autocmd!
-"		autocmd BufWrite,FileWritePre,FileAppendPre *.h call s:clang_format()
-"		autocmd BufWrite,FileWritePre,FileAppendPre *.cpp call s:clang_format()
-"	augroup END
-"endif
+if executable('clang-format')
+	augroup cpp_clang_format
+		autocmd!
+		autocmd BufWrite,FileWritePre,FileAppendPre *.h call s:ClangFormat()
+		autocmd BufWrite,FileWritePre,FileAppendPre *.cpp call s:ClangFormat()
+	augroup END
+endif
 
 nnoremap sc :call ClangFormat()<CR>
 
@@ -346,3 +346,4 @@ nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!
 
 " markdownの設定
 au BufRead,BufNewFile *.md set filetype=markdown
+
