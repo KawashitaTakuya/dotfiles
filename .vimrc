@@ -279,7 +279,7 @@ let g:ycm_always_populate_location_list = 1
 let g:ycm_open_loclist_on_ycm_diags = 1
 
 " clang-format用関数
-function! s:ClangFormat()
+function! ClangFormat()
 	let now_line = line(".")
 	exec ":%! clang-format"
 	exec ":" . now_line
@@ -289,8 +289,8 @@ endfunction
 if executable('clang-format')
 	augroup cpp_clang_format
 		autocmd!
-		autocmd BufWrite,FileWritePre,FileAppendPre *.h call s:ClangFormat()
-		autocmd BufWrite,FileWritePre,FileAppendPre *.cpp call s:ClangFormat()
+		autocmd BufWrite,FileWritePre,FileAppendPre *.h call ClangFormat()
+		autocmd BufWrite,FileWritePre,FileAppendPre *.cpp call ClangFormat()
 	augroup END
 endif
 
