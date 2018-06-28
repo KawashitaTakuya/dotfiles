@@ -89,6 +89,9 @@ endif
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+" ヘッダとソースファイルを切り替える
+NeoBundle 'mopp/next-alter.vim'
+
 " vimrcに記述されたプラグインでインストールされてないものがないかチェックする
 NeoBundleCheck
 
@@ -335,6 +338,8 @@ if executable('ag')
 	let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
 	let g:unite_source_grep_recursive_opt = ''
 endif
+
+" next-alter
 
 " vim-over(置換のキーマップ)
 " 起動
