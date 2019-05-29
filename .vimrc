@@ -15,17 +15,48 @@ if has('vim_starting')
 		:call system("mv ~/.vim/molokai/colors/molokai.vim ~/.vim/colors/")
 		:call system("rm -rf ~/.vim/molokai")
 	endif
-	set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+
+set runtimepath+=~/.vim/bundle/neobundle.vim/
+
+" dein scripts  -----------------------------
+if &compatible
+	set nocompatible
+endif
+
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+
+if dein#load_state('$HOME/.cache/dein')
+	call dein#begin('$HOME/.cache/dein')
+	call dein#add('Shougo/dein.vim')
+	call dein#add('Shougo/neomru.vim')
+	call dein#add('vim-airline/vim-airline')
+	call dein#add('vim-airline/vim-airline-themes')
+	call dein#add('tpope/vim-fugitive')
+"	call dein#add('roxma/nvim-yarp')
+"	call dein#add('roxma/vim-hug-neovim-rpc')
+"	call dein#add('Shougo/denite.nvim')
+"	call dein#add('Shougo/deoplete.nvim')
+
+	call dein#end()
+	call dein#save_state()
+endif
+
+if dein#check_install()
+	call dein#install()
+endif
+
+
 
 call neobundle#begin(expand('~/.vim/bundle/'))
 
 " バンドル 
 NeoBundle 'Shougo/unite.vim'
-" ステータスバーのライン
-NeoBundle 'Shougo/neomru.vim'
-"NeoBundle 'Shougo/vimfiler'
-NeoBundle 'bling/vim-airline'
+
+" vim8 から使えない
+"NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'Shougo/denite.nvim'
+"NeoBundle 'bling/vim-airline'
 " nerdtree
 " NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'seventhsense/nerdtree', 'development'
@@ -34,6 +65,8 @@ NeoBundle 'tomasr/molokai'
 " Uniteのカラースキーマ
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'lambdalisue/unite-grep-vcs'
+
+"NeoBundle 'Shougo/vimfiler'
 
 " 非同期処理を行ってくれる
 NeoBundle 'Shougo/vimproc'
@@ -91,6 +124,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " ヘッダとソースファイルを切り替える
 NeoBundle 'mopp/next-alter.vim'
+"NeoBundleLazy 'kana/vim-altr'
 
 " vimrcに記述されたプラグインでインストールされてないものがないかチェックする
 NeoBundleCheck
@@ -105,7 +139,7 @@ set notitle
 set shortmess+=I
 " ステータスラインを表示
 set laststatus=2
-" カーソル行のライン
+" カーソル行のライン 
 set cursorline
 
 " 入力中のコマンドを表示する
@@ -183,6 +217,8 @@ set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 set guifont=Consolas:h12:cSHIFTJIS
+
+"set ambiwidth=double
 
 " ====== カラースキーマ =====
 syntax on
@@ -316,7 +352,7 @@ let g:unite_enable_smart_case = 1
 " ウィンドウを分割して開く
 au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
 au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-" ウィンドウを縦に分割して開く
+"" ウィンドウを縦に分割して開く
 au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
 au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
 " ESCキーを2回押すと終了する
@@ -325,7 +361,7 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 nnoremap <silent> <Space>y :<C-u>Unite history/yank<CR>
 nnoremap <silent> <Space>b :<C-u>Unite buffer<CR>
-"nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> ,f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> <Space>r :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> <Space>n :<C-u>Unite file/new<CR>
 nnoremap <silent> <Space>f :<C-u>Unite file_rec<CR>
@@ -339,11 +375,9 @@ if executable('ag')
 	let g:unite_source_grep_recursive_opt = ''
 endif
 
-" next-alter
-
 " vim-over(置換のキーマップ)
 " 起動
-nnoremap <silent> <Space>m : OverCommandLine<CR>
+"nnoremap <silent> <Space>m : OverCommandLine<CR>
 " カーソル下の単語をハイライト付きで置換
 nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 " コピーした文字列をハイライト付きで置換
@@ -351,4 +385,89 @@ nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!
 
 " markdownの設定
 au BufRead,BufNewFile *.md set filetype=markdown
+
+"nnoremap <Space>a <Plug>(altr-forward)
+
+" ヘッダとソースファイルを切り替える
+nnoremap [nextalter] <Nop>
+nmap <Space>n [nextalter]
+nnoremap <silent> [nextalter]o :<C-u>OpenNAlter<CR>
+
+
+nnoremap [denite] <Nop>
+nmap <Space>u [denite]
+
+"現在開いているファイルのディレクトリ下のファイル一覧。
+nnoremap <silent> [denite]f :<C-u>DeniteBufferDir
+	\ -direction=topleft -cursor-wrap=true file file:new<CR>
+"バッファ一覧
+nnoremap <silent> [denite]b :<C-u>Denite -direction=topleft -cursor-wrap=true buffer<CR>
+"レジスタ一覧
+nnoremap <silent> [denite]r :<C-u>Denite -direction=topleft -cursor-wrap=true -buffer-name=register register<CR>
+"最近使用したファイル一覧
+nnoremap <silent> [denite]m :<C-u>Denite -direction=topleft -cursor-wrap=true file_mru<CR>
+"ブックマーク一覧
+nnoremap <silent> [denite]c :<C-u>Denite -direction=topleft -cursor-wrap=true bookmark<CR>
+"ブックマークに追加
+nnoremap <silent> [denite]a :<C-u>DeniteBookmarkAdd<CR>
+
+".git以下のディレクトリ検索
+nnoremap <silent> [denite]k :<C-u>Denite -direction=topleft -cursor-wrap=true
+	\ -path=`substitute(finddir('.git', './;'), '.git', '', 'g')`
+	\ file_rec/git<CR>
+
+call denite#custom#source('file'    , 'matchers', ['matcher_cpsm', 'matcher_fuzzy'])
+call denite#custom#source('buffer'  , 'matchers', ['matcher_regexp'])
+call denite#custom#source('file_mru', 'matchers', ['matcher_regexp'])
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+	\ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+call denite#custom#map('insert', '<C-N>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-P>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('insert', '<C-W>', '<denite:move_up_path>', 'noremap')
+call denite#custom#option('default', 'prompt', '>')
+call denite#custom#option('default', 'direction', 'top')
+
+
+" airline(ステータスバーの見た目) -----------------
+let g:airline_theme = 'luna'
+
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+endif
+
+" font
+let g:airline_powerline_fonts = 1
+set laststatus=2
+
+let g:airline_mode_map = {
+	\ 'n'  : 'Normal',
+	\ 'i'  : 'Insert',
+	\ 'R'  : 'Replace',
+	\ 'c'  : 'Command',
+	\ 'v'  : 'Visual',
+	\ 'V'  : 'V-Line',
+	\ '⌃V' : 'V-Block',
+\ }
+
+let g:airline#extensions#default#layout = [
+	\ [ 'a', 'b', 'c' ],
+	\ [ 'x', 'y', 'z', 'error', 'warning']
+\ ]
+
+
+let g:airline_symbols.crypt = '🔒'		"暗号化されたファイル
+let g:airline_symbols.paste = 'ρ'			"ペーストモード
+let g:airline_symbols.whitespace = 'Ξ'	"空白の警告(余分な空白など)
+
+"let g:airline_left_sep = '»'
+"let g:airline_left_sep = '▶'
+"let g:airline_right_sep = '«'
+"let g:airline_right_sep = '◀'
+
+"let g:airline_left_sep = '⮀'
+"let g:airline_left_alt_sep = '⮁'
+"let g:airline_right_sep = '⮂'
+"let g:airline_right_alt_sep = '⮃'
 
