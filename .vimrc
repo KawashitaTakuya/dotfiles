@@ -431,15 +431,15 @@ call denite#custom#option('default', 'direction', 'top')
 
 
 " airline(ステータスバーの見た目) -----------------
-let g:airline_theme = 'luna'
+let g:airline_theme = 'fruit_punch'
 
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 endif
 
 " font
-let g:airline_powerline_fonts = 1
-set laststatus=2
+"let g:airline_powerline_fonts = 1
+" set laststatus=2
 
 let g:airline_mode_map = {
 	\ 'n'  : 'Normal',
@@ -452,7 +452,7 @@ let g:airline_mode_map = {
 \ }
 
 let g:airline#extensions#default#layout = [
-	\ [ 'a', 'b', 'c' ],
+	\ [ 'a', 'c' ],
 	\ [ 'x', 'y', 'z', 'error', 'warning']
 \ ]
 
