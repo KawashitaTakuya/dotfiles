@@ -1,10 +1,5 @@
-
 # リロードするため
 bind r source-file ~/.tmux.conf \; display "Reloaded!"
-
-# キーの割り当て変更
-set-option -g prefix C-t
-unbind C-b
 
 # tmuxセッション全削除
 bind d kill-server
@@ -14,27 +9,12 @@ bind d kill-server
 set-option -g status-position bottom
 
 # utf-8に対応させる
-#set -g status-utf8 on
-#setw -g utf8 on
+set -g status-utf8 on
+setw -g utf8 on
 
-# 基本設定
-## 256色端末を使用する
-set -g default-terminal "screen-256color"
-set -g terminal-overrides 'xterm:colors=256'
-## Escキーの遅延を解消
-set -s escape-time 0
-## status line を更新する間隔を1秒にする
-#set-option -g status-interval 1
-## ウィンドウのインデックスを1から始める
-set -g base-index 1
-## ペインのインデックスを1から始める
-#setw -g pane-base-index 1
-## アクティブなペインのみ白っぽく変更（真っ黒は232）
-set -g window-style 'bg=colour236'
-set -g window-active-style 'bg=colour232'
-
-# キーストロークのディレイを減らす
-set -sg escape-time 1
+# 256色対応させる
+set-option -g default-terminal screen-256color
+set -g terminal-overrides 'xterm:color=256'
 
 # マウス有効にする
 # tmux2.1以降のマウス対応
@@ -43,8 +23,34 @@ set-option -g mouse on
 # マウスでスクリーンをスクロール出来るようにする
 bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'copy-mode -e'"
 
+# tmux2.1以前のマウススクロール対応
+# set-option -g mode-mouse on
+# set-option -g mouse-select-window on
+# set-option -g mouse-select-pane on
+# set-option -g mouse-resize-pane on
 
 bind-key b previous-window
+
+# defaultのshellを変更する
+#set-option -g default-shell /bin/zsh
+
+# 非アクティブなウィンドウの色
+set-window-option -g window-status-fg default
+set-window-option -g window-status-bg default
+
+# アクティブなウィンドウの色
+set-window-option -g window-status-current-fg colour16
+set-window-option -g window-status-current-bg colour178
+
+# キーストロークのディレイを減らす
+set -sg escape-time 1
+
+# キーバインド
+# prefixの変更
+set -g prefix C-a
+unbind C-b
+
+# ペインの移動
 
 # ペインの分割
 bind-key s split-window -v
@@ -74,23 +80,24 @@ set-option -g status-left "#[fg=colour255,bg=colour241]Session: #[default]"
 ## 右パネルを設定する
 set -g status-right-length 80
 set -g status-right \
-"#[fg=white][%m/%d(%a) %H:%M]"
+"#[fg=white][%Y/%m/%d(%a) %H:%M]"
+
 
 # コピー関連
 ## コピーモードをvi bindにする
 set-window-option -g mode-keys vi
 bind-key q copy-mode
-#bind-key -t vi-copy 'v' begin-selection
-#bind-key -t vi-copy 'y' copy-selection
+bind-key -t vi-copy 'v' begin-selection
+bind-key -t vi-copy 'y' copy-selection
 ## ペースト
 bind-key p paste-buffer
 
 # ページスクロール
-#bind-key -t vi-copy K page-up
-#bind-key -t vi-copy J page-down
+bind-key -t vi-copy K page-up
+bind-key -t vi-copy J page-down
 
 # 前方検索
-#bind-key -t vi-copy / search-forward
+bind-key -t vi-copy / search-forward
 
 # ESC
 set -s escape-time 0
